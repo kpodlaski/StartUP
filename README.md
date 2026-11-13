@@ -14,7 +14,7 @@ Materiały przygotowano z wykorzystaniem narzędzia AI (Claude, Anthropic); tre�
 ## Zawartość
 
 ```
-warsztat/
+warsztat_materialy/        (katalog tego repozytorium)
 ├── instrukcje/            ← DLA UCZESTNIKÓW: opisy ćwiczeń z tabelami do wypełnienia (do druku)
 │   ├── 00_wprowadzenie.md     role w zespole, lista ćwiczeń, ćw. 0 (Jupyter)
 │   ├── 01_lidar.md            ćw. 1  LiDAR: dokładność, materiały, kąt         (12 min)
@@ -94,7 +94,7 @@ Szybki test łączności w notatniku: `wybierz_robota(N)`, `uruchom_robota()`, `
 ## Tryb demonstracyjny (bez robota)
 
 ```
-cd warsztat/notatniki && WARSZTAT_DEMO=1 jupyter lab
+cd notatniki && WARSZTAT_DEMO=1 jupyter lab
 ```
 Symuluje LiDAR (pokój 3 × 2 m z przeszkodami), kamerę i odometrię z błędem kół. Notatniki **00, 01, 02, 03, 05, 06** wykonują się w nim w całości (sprawdzone automatycznie; 06 na obrazie syntetycznym). Ćwiczenia 04 i 07 wymagają robota. Logikę szukania i dojazdu sprawdzono na prawdziwych zdjęciach z symulowanymi ruchami. Tryb przydaje się do przećwiczenia zajęć i jako plan awaryjny, gdy robot zespołu nie działa.
 
