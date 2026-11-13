@@ -1,0 +1,87 @@
+% Wygenerowano z ../03_odometria.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 3: odometria, czyli dlaczego robot się gubi (15 min)}\label{ux107wiczenie-3-odometria-czyli-dlaczego-robot-siux119-gubi-15-min}
+
+\textbf{Notatnik:} \texttt{03\_odometria.ipynb}
+
+\textbf{Potrzebne:} taśma malarska, miarka, kawałek wolnej podłogi ok. 1,5 × 1,5 m
+
+\subsection{Cel}\label{cel}
+
+Sprawdzić, jak dokładnie robot zna swoje położenie, gdy liczy je tylko z obrotów kół.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+\textbf{Odometria} to obliczanie położenia na podstawie tego, ile obrotów wykonały koła. Robot „wie'', że koło o obwodzie 20 cm obróciło się 5 razy, więc uznaje, że przejechał 1 m. Tak samo liczy obroty. Problem w tym, że koła się \textbf{ślizgają}, a dwa silniki \textbf{nigdy nie są identyczne}. Każdy mały błąd dokłada się do poprzednich, a robot nie ma jak tego zauważyć.
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: oznaczenie startu (2 min)}\label{krok-1-oznaczenie-startu-2-min}
+
+Przyklej na podłodze taśmą \textbf{krzyżyk} (punkt startu) i \textbf{linię kierunku}. Ustaw robota tak, żeby środek między kołami był nad krzyżykiem, a przód był skierowany wzdłuż linii. Przyklej też kawałek taśmy przy przednim brzegu robota, żeby potem zmierzyć kąt.
+
+\subsubsection{Krok 2: przejazd po kwadracie (4 min)}\label{krok-2-przejazd-po-kwadracie-4-min}
+
+Uruchom \texttt{przejazd\_po\_kwadracie(bok=1.0)}. Robot przejedzie kwadrat 1 × 1 m, skręcając w lewo, i zatrzyma się tam, gdzie \textbf{według odometrii} jest start.
+
+Gdy robot stanie, zmierzcie miarką, jak daleko środek robota jest od krzyżyka (w cm). Pomiar obrotu robota względem linii kierunku jest szacunkowy.
+
+\subsubsection{Krok 3: kolejne przejazdy (6 min)}\label{krok-3-kolejne-przejazdy-6-min}
+
+Za każdym razem ustaw robota dokładnie na krzyżyku. W komórkach zmieniasz parametry oznaczone \texttt{\#\ ZMIEŃ\ TUTAJ}.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0752}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0752}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1053}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1128}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2256}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2256}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1805}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Przejazd
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Bok {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Prędkość {[}m/s{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Okrążenia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Odległość od startu wg odometrii {[}cm{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Odległość od startu z miarki {[}cm{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Obrót względem linii {[}°{]}
+\end{minipage} \\
+\midrule\noalign{}
+1 & 1,0 & 0,15 & 1 & & & \\
+2 & 1,0 & 0,15 & 1 (powtórzenie) & & & \\
+3 & 1,0 & 0,30 & 1 & & & \\
+4 & 1,0 & 0,15 & 2 & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsubsection{Krok 4: trasa według robota (1 min)}\label{krok-4-trasa-wedux142ug-robota-1-min}
+
+Uruchom \texttt{rysuj\_trase(...)}. Wykres pokazuje, jak robot \textbf{wyobraża sobie} swoją trasę.
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Robot „sądzi'', że wrócił do startu. Gdzie jest naprawdę? Czy przy powtórzeniu błąd jest taki sam?
+\item
+  Jak zmienia się błąd przy większej prędkości? A przy dwóch okrążeniach?
+\item
+  Gdyby robot przejechał tak 100 m, czy nadal wiedziałby, gdzie jest?
+\item
+  Czego robot potrzebuje, żeby \textbf{poprawić} swoje położenie? \emph{(Podpowiedź: co widzi LiDAR? Zobacz ćwiczenie 4.)}
+\end{enumerate}
+
+\begin{quote}
+\textbf{Wniosek do zapamiętania.} Odometria jest dobra na krótkich odcinkach, ale jej błąd \textbf{narasta bez końca}. Dlatego robot musi porównywać to, co widzi, z mapą otoczenia. Na tym polega \textbf{SLAM}.
+\end{quote}

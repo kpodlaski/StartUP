@@ -1,0 +1,151 @@
+% Wygenerowano z ../04_slam.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 4: SLAM, czyli budujemy mapę (40 min)}\label{ux107wiczenie-4-slam-czyli-budujemy-mapux119-40-min}
+
+\textbf{Notatnik:} \texttt{04\_slam.ipynb}
+
+\textbf{Potrzebne:} tor z przeszkodami, punkt startowy \textbf{S} Waszego toru oznaczony na podłodze (wspólny dla zespołów jeżdżących na tym torze)
+
+\subsection{Cel}\label{cel}
+
+Zbudować mapę toru metodą SLAM, sprawdzić, jak parametry algorytmu wpływają na jakość mapy, i zapisać najlepszą mapę do części II.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+\textbf{SLAM} (\emph{Simultaneous Localization and Mapping}) to jednoczesna lokalizacja i budowa mapy. Robot rysuje mapę z kolejnych skanów LiDAR-u. Jednocześnie porównuje każdy nowy skan z tym, co już narysował, i na tej podstawie \textbf{poprawia swoje położenie}, czyli koryguje błąd odometrii z ćwiczenia 3.
+
+Mapa to siatka kratek. Każda kratka może być:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{wolna} (biała): tu nie ma przeszkody,
+\item
+  \textbf{zajęta} (czarna): tu jest przeszkoda,
+\item
+  \textbf{nieznana} (szara): robot jeszcze tu nie „zajrzał''.
+\end{itemize}
+
+\textbf{Zamknięcie pętli} (\emph{loop closure}) zachodzi, gdy robot wraca w miejsce, które już zna. Algorytm zauważa, że „to tu już było'', i prostuje całą mapę.
+
+\textbf{Jak zbudowany jest robot w ROS (Robot Operating System).} Oprogramowanie robota to wiele osobnych programów, czyli \textbf{węzłów}. Jeden obsługuje LiDAR, drugi silniki, trzeci SLAM. Wasz notatnik na stacji też jest węzłem. Węzły wymieniają się wiadomościami przez \textbf{tematy}. Na przykład LiDAR publikuje skany w temacie \texttt{/scan}, a SLAM je stamtąd odbiera i publikuje mapę w temacie \texttt{/map}.
+
+\subsection{Zasady jazdy podczas budowy mapy}\label{zasady-jazdy-podczas-budowy-mapy}
+
+\begin{itemize}
+\tightlist
+\item
+  Jedź \textbf{wolno}, a obracaj się jeszcze wolniej. Szybki obrót „rozmazuje'' mapę.
+\item
+  Objedź cały tor i \textbf{wróć do miejsc, które już robot widział}, żeby zamknąć pętlę.
+\item
+  Nie stawajcie wszyscy wokół robota, bo LiDAR narysuje Wasze nogi jako ściany.
+\end{itemize}
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: ROS od środka (3 min)}\label{krok-1-ros-od-ux15brodka-3-min}
+
+Uruchom \texttt{wezly\_i\_tematy()}. Znajdź na liście węzeł LiDAR-u i temat \texttt{/scan}, a także temat, którym wysyłane są polecenia jazdy (\texttt{/cmd\_vel}).
+
+\subsubsection{Krok 2: pierwsza mapa z parametrami domyślnymi (12 min)}\label{krok-2-pierwsza-mapa-z-parametrami-domyux15blnymi-12-min}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Ustaw robota na punkcie S}, przodem wzdłuż oznaczonej linii. Punkt S będzie środkiem mapy (x = 0, y = 0), a kierunek linii to oś x.
+\item
+  Uruchom \texttt{uruchom\_slam()}. Komunikat potwierdzi, że SLAM działa.
+\item
+  Uruchom \texttt{panel\_sterowania(podglad=True)} i objedź tor przyciskami. Obok przycisków zobaczysz mapę na żywo: robot (fioletowa strzałka), skan LiDAR-u (czerwone punkty) i rosnącą mapę. Obserwuj, jak mapa rośnie.
+\item
+  Obserwuj zamknięcie pętli: co się dzieje z mapą, gdy robot wraca w znane miejsce?
+\item
+  Uruchom \texttt{pokaz\_mape()} i zapisz wynik do tabeli. Uruchom \texttt{zapisz\_mape("zespolN\_mapa1")}, wstawiając zamiast N numer zespołu.
+\end{enumerate}
+
+\subsubsection{Krok 3: eksperymenty z parametrami (18 min)}\label{krok-3-eksperymenty-z-parametrami-18-min}
+
+Prowadzący przydzieli Waszemu zespołowi \textbf{dwa eksperymenty} z listy poniżej. Przed każdym eksperymentem: robot na punkt S, uruchomić komórkę z nowymi parametrami (SLAM zaczyna od pustej mapy), objechać tor tak samo jak w kroku 2.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1183}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3118}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5699}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Eksperyment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Co zmieniamy
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Parametry w notatniku
+\end{minipage} \\
+\midrule\noalign{}
+A & grubsza siatka & \texttt{rozdzielczosc=0.10} \\
+B & drobniejsza siatka & \texttt{rozdzielczosc=0.02} \\
+C & „krótkowzroczny'' LiDAR & \texttt{zasieg=1.0} \\
+D & rzadkie aktualizacje mapy & \texttt{aktualizacja=10.0} \\
+E & mało hipotez położenia & \texttt{czastki=5} \\
+F & szybka jazda i szybkie obroty & domyślne parametry; w panelu prędkość 0,3 i obrót 2,0 \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0746}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2388}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1343}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1418}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1716}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1194}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1194}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mapa
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Parametry
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czas objazdu {[}min{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Zbadany obszar {[}m²{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czy pętla się zamknęła?
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ocena mapy 1--5
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Co jest nie tak?
+\end{minipage} \\
+\midrule\noalign{}
+mapa1 & domyślne (0,05 / 6,0 / 2,0 / 30) & & & & & \\
+& & & & & & \\
+& & & & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+Kryteria oceny mapy: proste ściany (nie „podwójne''), przeszkody w dobrych miejscach, brak dziur, kształt toru zgodny z rzeczywistością.
+
+\subsubsection{Krok 4: najlepsza mapa (7 min)}\label{krok-4-najlepsza-mapa-7-min}
+
+Ustawcie parametry, które dały najlepszą mapę, zbudujcie ją jeszcze raz starannie i zapiszcie jako \textbf{\texttt{zespolN\_najlepsza}}. Ta mapa posłuży w ćwiczeniu 7. Na koniec uruchom \texttt{zatrzymaj\_slam()}.
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Co się stało z mapą przy szybkiej jeździe i szybkich obrotach? Dlaczego?
+\item
+  Drobniejsza siatka daje dokładniejszą mapę. Jaka jest cena? \emph{(Pomyśl o pamięci i czasie obliczeń.)}
+\item
+  Dlaczego długi, pusty korytarz bez charakterystycznych punktów jest trudny dla SLAM?
+\item
+  \emph{(Jeśli prowadzący pokazał LiDAR 3D)} Co widzi LiDAR 3D, czego nie widzi 2D?
+\end{enumerate}
+
+\begin{quote}
+\textbf{Plan awaryjny.} Jeśli mapa wyszła słabo, a czas się kończy, prowadzący ma gotową mapę toru \texttt{tor\_prowadzacy}. Wystarczy jej użyć w ćwiczeniu 7.
+\end{quote}

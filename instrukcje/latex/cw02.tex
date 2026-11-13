@@ -1,0 +1,123 @@
+% Wygenerowano z ../02_kamera.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 2: kamera, czyli jak zapisany jest obraz (8 min)}\label{ux107wiczenie-2-kamera-czyli-jak-zapisany-jest-obraz-8-min}
+
+\textbf{Notatnik:} \texttt{02\_kamera.ipynb}
+
+\textbf{Potrzebne:} kolorowe przedmioty przed kamerą robota (np. czerwona gumowa kaczka, zielona i niebieska kartka, kartka z napisem drukowanymi literami)
+
+\subsection{Cel}\label{cel}
+
+Zrozumieć, z czego składa się obraz cyfrowy i dlaczego sposób jego zapisu ma znaczenie dla robota.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+\begin{itemize}
+\tightlist
+\item
+  Obraz cyfrowy to prostokątna siatka \textbf{pikseli}. \textbf{Rozdzielczość} to liczba pikseli w poziomie × w pionie, np. 640 × 480.
+\item
+  W modelu \textbf{RGB} kolor każdego piksela jest zapisany jako trzy liczby od 0 do 255: ilość światła \textbf{czerwonego (R)}, \textbf{zielonego (G)} i \textbf{niebieskiego (B)}. (0, 0, 0) to czerń, a (255, 255, 255) to biel.
+\item
+  Jeden piksel zajmuje 3 bajty. Obraz 640 × 480 zajmuje więc 640 · 480 · 3 = \textbf{921 600 bajtów (900 kB)}. Kamera wysyła ok. 30 takich obrazów na sekundę.
+\item
+  \textbf{Kompresja bezstratna} (np. \textbf{PNG}) zmniejsza plik bez utraty informacji: po odczycie obraz jest identyczny.
+\item
+  \textbf{Kompresja stratna} (np. \textbf{JPEG}) usuwa szczegóły, których oko prawie nie zauważa. Pliki są dużo mniejsze, ale obraz już nie jest identyczny z oryginałem.
+\end{itemize}
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: zdjęcie i rozdzielczość (1 min)}\label{krok-1-zdjux119cie-i-rozdzielczoux15bux107-1-min}
+
+Ustaw przedmioty przed kamerą i uruchom komórkę ze zdjęciem.
+
+\begin{itemize}
+\tightlist
+\item
+  Rozdzielczość obrazu: \linia{2.5} × \linia{2.5} pikseli; liczba pikseli: \linia{5.0}
+\item
+  Rozmiar bez kompresji: \linia{2.5} kB
+\end{itemize}
+
+\subsubsection{Krok 2: piksele i kolory (2 min)}\label{krok-2-piksele-i-kolory-2-min}
+
+W komórce \texttt{piksele(img,\ x,\ y)} zmień \texttt{x} i \texttt{y} tak, żeby oglądać fragment \textbf{kaczki}, a potem \textbf{białej ściany lub kartki}. Wartości odczytasz z powiększenia.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3043}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2319}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2319}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2319}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Miejsce
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+G
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+B
+\end{minipage} \\
+\midrule\noalign{}
+kaczka (czerwona) & & & \\
+biała ściana / kartka & & & \\
+ciemny fragment & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+Uruchom \texttt{kanaly\_rgb(img)}. W którym kanale kaczka jest najjaśniejsza? \linia{5.0}
+
+\subsubsection{Krok 3: kompresja (3 min)}\label{krok-3-kompresja-3-min}
+
+Uruchom \texttt{porownaj\_kompresje(img)}. Potem uruchom ją jeszcze raz, podając \texttt{wycinek}, czyli powiększony fragment z krawędzią kaczki.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1772}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2025}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2405}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3797}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Format
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Rozmiar {[}kB{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Średni błąd piksela
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czy widać różnicę na powiększeniu?
+\end{minipage} \\
+\midrule\noalign{}
+bez kompresji & & 0 & --- \\
+PNG & & & \\
+JPEG jakość 95 & & & \\
+JPEG jakość 50 & & & \\
+JPEG jakość 10 & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsubsection{Krok 4: mniejsza rozdzielczość (2 min)}\label{krok-4-mniejsza-rozdzielczoux15bux107-2-min}
+
+W komórce \texttt{zmien\_rozdzielczosc} sprawdź szerokości 320, 160, 80 i 40 pikseli.
+
+\begin{itemize}
+\tightlist
+\item
+  Przy jakiej szerokości napis na kartce przestaje być czytelny? \linia{2.5} px A kaczka przestaje być rozpoznawalna? \linia{2.5} px
+\end{itemize}
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Robot wysyła obraz z kamery przez Wi-Fi do komputera stacji, na którym działa sieć neuronowa. Który format wybierzesz do przesyłania na żywo, a który do zapisania zdjęć dokumentujących wypadek? Dlaczego?
+\item
+  Ile danych na sekundę wysyłałaby kamera 640 × 480 nadająca 30 klatek/s bez kompresji?
+\item
+  Mniejszy obraz to szybsze przetwarzanie. Co tracimy? \emph{(Wrócimy do tego w ćwiczeniu 6.)}
+\end{enumerate}

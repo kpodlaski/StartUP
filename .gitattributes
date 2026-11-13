@@ -1,0 +1,4 @@
+# Skrypty powłoki z końcami linii LF także po checkoutcie na Windowsie; .bat z CRLF.
+*.sh  text eol=lf
+*.bat text eol=crlf
+Dockerfile text eol=lf

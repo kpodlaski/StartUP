@@ -1,0 +1,78 @@
+% Wygenerowano z ../05_perceptron.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 5: neuron, czyli hamuj czy jedź? (10 min)}\label{ux107wiczenie-5-neuron-czyli-hamuj-czy-jedux17a-10-min}
+
+\textbf{Notatnik:} \texttt{05\_perceptron.ipynb} (nie wymaga robota)
+
+\subsection{Cel}\label{cel}
+
+Zobaczyć, jak pojedynczy sztuczny neuron podejmuje decyzję i co to znaczy, że sieć neuronowa „uczy się''.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+Sztuczny neuron (\textbf{perceptron}) dostaje liczby, np. odległość od przeszkody. Mnoży je przez \textbf{wagi}, dodaje \textbf{bias} (przesunięcie) i sprawdza znak wyniku:
+
+\begin{quote}
+s = waga · odległość + bias\\
+s \textgreater{} 0 → \textbf{HAMUJ}, w przeciwnym razie → \textbf{JEDŹ}
+\end{quote}
+
+Cała „wiedza'' neuronu to te kilka liczb. \textbf{Uczenie} to automatyczne szukanie takich liczb, przy których neuron odpowiada dobrze.
+
+\textbf{Jak czytać wykresy:} \textbf{tło} pokazuje, co robi neuron (czerwone = HAMUJ, zielone = JEDŹ). \textbf{Kropki} pokazują, co powinien zrobić. \textbf{\ding{54}} oznacza błąd neuronu. Pod wykresem jest przykład obliczenia s.
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Część A: jedno wejście, czyli odległość (3 min)}\label{czux119ux15bux107-a-jedno-wejux15bcie-czyli-odlegux142oux15bux107-3-min}
+
+Waga jest ustawiona na −1. Przesuwaj \textbf{bias} i patrz, jak przesuwa się czarna granica. Ustaw go tak, żeby neuron hamował tylko przy czerwonych kropkach (\ding{51} BRAWO).
+
+\begin{itemize}
+\tightlist
+\item
+  Przy jakim biasie się udało? \linia{2.5} Gdzie jest wtedy granica? \linia{2.5} m
+\item
+  Zmień wagę na \textbf{+1}. Co robi teraz neuron? Dlaczego waga musi być ujemna?
+\end{itemize}
+
+\subsubsection{Część B: dwa wejścia, czyli odległość i prędkość (4 min)}\label{czux119ux15bux107-b-dwa-wejux15bcia-czyli-odlegux142oux15bux107-i-prux119dkoux15bux107-4-min}
+
+Przy szybkiej jeździe trzeba hamować wcześniej. Waga odległości zostaje −1. Dobierz \textbf{wagę prędkości} i \textbf{bias} tak, żeby wszystkie 60 sytuacji było dobrze.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4146}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1951}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1951}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1951}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+waga prędkości
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+bias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Poprawne (z 60)
+\end{minipage} \\
+\midrule\noalign{}
+Nasze ustawienie & & & \\
+Komputer (część C, po podzieleniu) & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsubsection{Część C: automatyczne uczenie (3 min)}\label{czux119ux15bux107-c-automatyczne-uczenie-3-min}
+
+Uruchom komórkę. Komputer zaczyna od wag równych zero i po każdej pomyłce lekko je poprawia. Na wykresach widać, jak granica przesuwa się po kolejnych \textbf{epokach} (epoka to jedno przejście przez wszystkie przykłady). Wpisz wynik do tabeli powyżej.
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Czy komputer znalazł te same liczby co Wy? Czy to źle, że są inne? \emph{(Porównaj, gdzie przebiega granica.)}
+\item
+  Wasz neuron ma \textbf{3} liczby do dobrania. Sieci z ćwiczenia 6 mają ich \textbf{ok. 3 miliony} (YOLO z listą 80 klas) i \textbf{ok. 14 milionów} (YOLOE, której zadajemy pytania słowami). Czy dałoby się je dobrać suwakami?
+\item
+  Do nauczenia takiej sieci potrzeba setek tysięcy opisanych zdjęć i wielu dni pracy kart graficznych. Dlaczego w praktyce korzysta się z \textbf{gotowych, wytrenowanych modeli}?
+\end{enumerate}

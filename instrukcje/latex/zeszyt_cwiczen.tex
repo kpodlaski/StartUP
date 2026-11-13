@@ -1,0 +1,108 @@
+% Zeszyt ćwiczeń dla zespołów — warsztat „Autonomiczne pojazdy sterowane AI”
+% Treść ćwiczeń: cw00.tex … cw08.tex (wygenerowane z ../*.md skryptem _md_do_latex.py, można edytować ręcznie).
+% Kompilacja: pdflatex zeszyt_cwiczen.tex (2×, dla spisu treści); działa też xelatex / lualatex / tectonic
+\documentclass[11pt,a4paper,parskip=half]{scrartcl}
+
+% ---------- czcionki: działa z pdfLaTeX (klasycznie: T1 + inputenc) oraz z XeLaTeX/LuaLaTeX ----------
+\newif\ifpagella
+\pagellafalse   % \pagellatrue → TeX Gyre Pagella + Heros (odpowiedniki Palatino i Helvetiki); domyślnie Latin Modern
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \ifpagella\usepackage{tgpagella}\usepackage[scale=0.92]{tgheros}\fi
+  \usepackage{newunicodechar}
+  \newunicodechar{→}{\ensuremath{\rightarrow}}
+  \newunicodechar{−}{\ensuremath{-}}
+  \newunicodechar{▶}{\ensuremath{\blacktriangleright}}
+\else
+  \usepackage{fontspec}   % bez dodatkowych ustawień: Latin Modern
+  \ifpagella
+    \setmainfont{texgyrepagella}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+    \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic,Scale=0.92]
+  \fi
+\fi
+\usepackage[polish]{babel}
+\usepackage[a4paper,margin=2cm,top=2.3cm,bottom=2.5cm]{geometry}
+\usepackage{xcolor,tikz,longtable,booktabs,array,calc,enumitem,pifont,amssymb}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage{scrlayer-scrpage}
+
+% ---------- kolory (jak w scenariuszu prowadzącego) ----------
+\definecolor{morski}{HTML}{1F5F7A}
+\definecolor{tlo}{HTML}{F3F7F9}
+\definecolor{zolty}{HTML}{E1A100}
+
+% ---------- nagłówki, stopka ----------
+\setcounter{secnumdepth}{0}                       % numery są w tytułach („Ćwiczenie 3: …”)
+\setcounter{tocdepth}{1}                          % spis treści: tylko ćwiczenia i główne części
+\addtokomafont{disposition}{\color{morski}}
+\setkomafont{pageheadfoot}{\normalfont\sffamily\footnotesize\color{gray}}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+\ihead{Autonomiczne pojazdy sterowane AI — zeszyt ćwiczeń}
+\ohead{\pagemark}
+\ifoot{Zespół nr \rule{1.5cm}{0.4pt}}
+\RedeclareSectionCommand[beforeskip=0pt,afterskip=0.8\baselineskip]{section}
+
+% ---------- elementy używane przez treść z pandoca ----------
+\setlength{\emergencystretch}{3em}                % długie nazwy funkcji w \texttt nie wystają za margines
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\renewcommand{\arraystretch}{1.75}                % wyższe wiersze tabel — miejsce na pisanie odręczne
+\setlength{\LTpre}{4pt}\setlength{\LTpost}{6pt}
+\newcommand{\linia}[1]{\rule[-2pt]{#1em}{0.4pt}}  % linia do wpisania odpowiedzi
+\renewenvironment{quote}%
+  {\begin{tcolorbox}[enhanced,breakable,colback=zolty!8,colframe=zolty!80!black,boxrule=0.6pt,left=6pt,right=6pt]}%
+  {\end{tcolorbox}}
+\newcommand{\szkicmapy}{%
+  \begin{tcolorbox}[colback=white,colframe=gray!60,boxrule=0.5pt,height=7cm,title={\sffamily\small Szkic naszej najlepszej mapy},
+    coltitle=black,colbacktitle=gray!15]\end{tcolorbox}}
+
+\begin{document}
+
+% =====================================================================================
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[morski] (current page.north west) rectangle ([yshift=-8.5cm]current page.north east);
+  \node[anchor=north west,text=white,font=\sffamily\bfseries\fontsize{30}{36}\selectfont,align=left]
+    at ([xshift=2cm,yshift=-2.4cm]current page.north west) {Autonomiczne pojazdy\\sterowane AI};
+  \node[anchor=north west,text=white!85!morski,font=\sffamily\Large,align=left]
+    at ([xshift=2cm,yshift=-5.6cm]current page.north west) {Zeszyt ćwiczeń dla zespołów\\[2pt]\normalsize warsztat 180 min};
+\end{tikzpicture}
+\vspace*{8.5cm}
+
+{\sffamily\large
+\renewcommand{\arraystretch}{2.2}
+\begin{tabular}{@{}ll@{}}
+Zespół nr & \rule{2cm}{0.4pt}\\
+Skład zespołu & \rule{9cm}{0.4pt}\\
+              & \rule{9cm}{0.4pt}\\
+Robot (Jetbot) nr & \rule{2cm}{0.4pt}\\
+Tor & \rule{2cm}{0.4pt}\\
+\end{tabular}}
+
+\vfill
+{\sffamily\small
+\begin{tcolorbox}[colback=tlo,colframe=morski,boxrule=0.6pt]
+\textbf{Jak korzystać z zeszytu.} Każde ćwiczenie ma swój notatnik Jupyter o tym samym numerze. Wyniki wpisujcie
+od razu do tabel, bo przydadzą się w podsumowaniu (ćwiczenie 8). Zmieniajcie tylko linie oznaczone
+\texttt{\# ZMIEŃ TUTAJ}. Gdy robot jedzie, pilot jest zawsze przy torze. Hamulec: komórka \texttt{stop()}.
+\end{tcolorbox}}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\input{cw00}
+\clearpage\input{cw01}
+\clearpage\input{cw02}
+\clearpage\input{cw03}
+\clearpage\input{cw04}
+\clearpage\input{cw05}
+\clearpage\input{cw06}
+\clearpage\input{cw07}
+\clearpage\input{cw08}
+
+\end{document}

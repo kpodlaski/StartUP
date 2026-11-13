@@ -1,0 +1,29 @@
+# Klucze ssh do Jetbotów (docker/klucze_ssh/README.txt opisuje, co tu wstawić)
+docker/klucze_ssh/*
+!docker/klucze_ssh/README.txt
+# Wyeksportowany obraz Dockera (docker save) do przeniesienia na stacje w labie
+*.tar
+# Wybór robota na danej stacji (jetbot_warsztat.wybierz_robota) — lokalny dla stacji
+notatniki/.wybrany_robot
+
+# --- Część PRYWATNA: osobne repozytorium zagnieżdżone w tym katalogu (scenariusz, prezentacja, narzędzia prowadzącego) ---
+prowadzacy/
+
+# Pliki tymczasowe Pythona i Jupytera
+__pycache__/
+.ipynb_checkpoints/
+
+# Pliki pomocnicze LaTeX-a (PDF-y są w repo celowo — gotowe do druku)
+TexAux/
+*.aux
+*.log
+*.toc
+*.out
+*.nav
+*.snm
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Blokady LibreOffice
+.~lock.*#

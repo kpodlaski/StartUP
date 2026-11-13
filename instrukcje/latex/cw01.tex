@@ -1,0 +1,142 @@
+% Wygenerowano z ../01_lidar.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 1: LiDAR, czyli jak robot mierzy odległość (12 min)}\label{ux107wiczenie-1-lidar-czyli-jak-robot-mierzy-odlegux142oux15bux107-12-min}
+
+\textbf{Notatnik:} \texttt{01\_lidar.ipynb}
+
+\textbf{Potrzebne:} miarka, karton (ok. 30 × 30 cm), zestaw materiałów: biała kartka, czarna matowa tkanina, szyba lub plexi, lusterko, metalowa puszka, szablon kątów (0°, 30°, 60°)
+
+\subsection{Cel}\label{cel}
+
+Sprawdzić, jak dokładnie LiDAR mierzy odległość i w jakich sytuacjach się myli.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+LiDAR (\emph{Light Detection and Ranging}) wysyła krótkie impulsy światła laserowego i mierzy, po jakim czasie wracają po odbiciu od przeszkody. Ponieważ światło porusza się ze stałą prędkością, z czasu powrotu można policzyć odległość. Głowica LiDAR-u obraca się kilka razy na sekundę. W ten sposób robot dostaje \textbf{kilkaset pomiarów odległości dookoła siebie}. Taki zestaw punktów to \textbf{skan} (chmura punktów).
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{LiDAR 2D} (taki jak na Jetbocie) mierzy w jednej płaszczyźnie, na wysokości czujnika. Nie widzi więc przedmiotów niższych lub wyższych od tej płaszczyzny.
+\item
+  \textbf{LiDAR 3D} ma wiele wiązek ustawionych pod różnymi kątami i widzi otoczenie w przestrzeni. Takie czujniki stosuje się w samochodach autonomicznych.
+\end{itemize}
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: pierwszy skan (2 min)}\label{krok-1-pierwszy-skan-2-min}
+
+Uruchom komórki \texttt{polacz()} i \texttt{rysuj\_skan()}. Widzisz otoczenie robota z góry. Robot to czerwony trójkąt, a jego przód jest skierowany w górę wykresu.
+
+\begin{itemize}
+\tightlist
+\item
+  Gdzie na wykresie są ściany? Gdzie przeszkody na torze?
+\item
+  Jedna osoba staje przed robotem, a druga ponownie uruchamia \texttt{rysuj\_skan()}. Jak na skanie wyglądają nogi?
+\end{itemize}
+
+\subsubsection{Krok 2: dokładność pomiaru (4 min)}\label{krok-2-dokux142adnoux15bux107-pomiaru-4-min}
+
+Ustaw karton \textbf{na wprost robota}, prostopadle do niego. Odległość mierz miarką od \textbf{środka LiDAR-u} (obrotowej głowicy) do kartonu. Dla każdej odległości uruchom \texttt{seria\_pomiarow(kat=0)}. Komórka wykona 10 pomiarów i poda średnią oraz rozrzut.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2366}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2258}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2581}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2796}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Odległość z miarki {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Średnia z LiDAR-u {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Rozrzut (odch. std.) {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Błąd = LiDAR − miarka {[}cm{]}
+\end{minipage} \\
+\midrule\noalign{}
+0,30 & & & \\
+0,60 & & & \\
+1,00 & & & \\
+1,50 & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsubsection{Krok 3: różne materiały (3 min)}\label{krok-3-ruxf3ux17cne-materiaux142y-3-min}
+
+Na kartonie ustawionym w odległości \textbf{0,60 m} umieszczaj kolejno różne materiały. \textbf{Lusterko} zmierz dwa razy: ustawione na wprost robota i obrócone o ok. 45°. Przy lusterku pod kątem uruchom też \texttt{rysuj\_skan()}: gdzie jest punkt?
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2121}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3030}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2626}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Materiał
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Średnia z LiDAR-u {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ile pomiarów nieudanych (z 10)?
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czy wynik jest wiarygodny?
+\end{minipage} \\
+\midrule\noalign{}
+karton (odniesienie) & & & \\
+biała kartka & & & \\
+czarna matowa tkanina & & & \\
+szyba / plexi & & & \\
+lusterko na wprost & & & \\
+lusterko pod kątem 45° & & & \\
+metalowa puszka & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsubsection{Krok 4: przeszkoda pod kątem (2 min)}\label{krok-4-przeszkoda-pod-kux105tem-2-min}
+
+Karton w odległości \textbf{0,60 m}, obracany względem robota (użyj szablonu kątów).
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3433}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3134}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3433}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Kąt ustawienia kartonu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Średnia z LiDAR-u {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pomiary nieudane (z 10)
+\end{minipage} \\
+\midrule\noalign{}
+0° (prostopadle) & & \\
+30° & & \\
+60° & & \\
+prawie równolegle (80°) & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Czy błąd pomiaru rośnie z odległością? O ile centymetrów może się mylić LiDAR?
+\item
+  Przy których materiałach LiDAR zawodzi? Dlaczego? \emph{(Podpowiedź: co dzieje się ze światłem przy szybie, czarnej tkaninie i lustrze? Dlaczego lustro na wprost i pod kątem dało inne wyniki?)}
+\item
+  Robot autonomiczny jedzie korytarzem z przeszklonymi drzwiami. Jakie zagrożenie widzisz?
+\item
+  Stolik ma blat na wysokości 70 cm i cienkie nogi. Co „zobaczy'' LiDAR 2D zamontowany 15 cm nad podłogą?
+\end{enumerate}
+
+\begin{quote}
+\textbf{Jeśli coś nie działa.} „Brak poprawnych pomiarów'' oznacza, że czujnik nie dostał odbicia. To też wynik, więc wpisz go do tabeli. Jeśli żaden skan się nie pojawia, uruchom \texttt{status()} i zawołaj prowadzącego.
+\end{quote}

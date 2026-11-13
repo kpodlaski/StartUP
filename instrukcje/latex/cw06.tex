@@ -1,0 +1,137 @@
+% Wygenerowano z ../06_detektor.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 6: gotowa sieć neuronowa szuka obiektów, czyli jak zapytać sieć (20 min)}\label{ux107wiczenie-6-gotowa-sieux107-neuronowa-szuka-obiektuxf3w-czyli-jak-zapytaux107-sieux107-20-min}
+
+\textbf{Notatnik:} \texttt{06\_detektor.ipynb}
+
+\textbf{Potrzebne:} obiekt do szukania (np. czerwona gumowa kaczka) na podłodze przed robotem, kilka innych przedmiotów (krzesło, plecak, pudełko), miarka, „obiekty-zagadki'' od prowadzącego
+
+\subsection{Cel}\label{cel}
+
+Sprawdzić, co potrafią gotowe sieci rozpoznające obiekty, nauczyć się dobierać zapytanie słowne i wybrać ustawienia do zadania „znajdź obiekt'' w ćwiczeniu 7.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+Porównamy dwa rodzaje gotowych, wytrenowanych sieci:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sieć z zamkniętą listą klas (YOLO, zbiór COCO).} Nauczona na ponad 100 000 opisanych zdjęć rozpoznaje \textbf{80 rodzajów obiektów}: osobę, krzesło, plecak, butelkę, kubek i inne. Czego nie ma na liście, tego nie wykryje. Najwyżej pomyli to z czymś podobnym.
+\item
+  \textbf{Sieć z otwartym słownikiem (YOLOE).} Tej sieci mówisz słowami (po angielsku), czego ma szukać, np. \texttt{"rubber\ duck"}. Nauczyła się łączyć obrazy z opisami słownymi, więc znajduje obiekty, na których \textbf{nikt jej specjalnie nie uczył}. Wynik zależy jednak od tego, \textbf{jak zapytasz}.
+\end{itemize}
+
+Dla każdego wykrytego obiektu sieć podaje \textbf{ramkę} (gdzie on jest) i \textbf{pewność} (od 0 do 1). Wykrycia słabsze od \textbf{progu pewności} są odrzucane.
+
+Sieci działają na \textbf{procesorze} stacji. Jedno zdjęcie analizują przez kilkaset milisekund, czyli ok. 2--10 zdjęć na sekundę.
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: sieć z zamkniętą listą (3 min)}\label{krok-1-sieux107-z-zamkniux119tux105-listux105-3-min}
+
+Postaw kaczkę ok. 1 m przed robotem, a obok krzesło i plecak. Uruchom komórkę z modelem \texttt{"coco"}.
+
+\begin{itemize}
+\tightlist
+\item
+  Co wykryła sieć? \linia{14.0}
+\item
+  Czy wykryła kaczkę? Jeśli tak, to jako co? \linia{9.2}
+\end{itemize}
+
+\subsubsection{Krok 2: zapytaj słowami (5 min)}\label{krok-2-zapytaj-sux142owami-5-min}
+
+Uruchom komórkę \texttt{porownaj\_slowa}. Sprawdza ona wiele opisów na tym samym zdjęciu i pokazuje, przy którym sieć jest najpewniejsza. Dopisz do listy \textbf{własne pomysły} (co najmniej 4).
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3846}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3077}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3077}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Opis (zapytanie)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pewność
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Uwagi
+\end{minipage} \\
+\midrule\noalign{}
+\texttt{duck} & & \\
+\texttt{rubber\ duck} & & \\
+\texttt{kaczka} (po polsku) & & \\
+\texttt{bird} & & \\
+& & \\
+& & \\
+& & \\
+& & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+Najlepsze zapytanie: \linia{9.2}
+
+\subsubsection{Krok 3: słowa konkurują (2 min)}\label{krok-3-sux142owa-konkurujux105-2-min}
+
+Ustaw w \texttt{ustaw\_slowa} jednocześnie Twoje najlepsze zapytanie i inne słowa, np. \texttt{{[}"rubber\ duck",\ "box",\ "toy"{]}}. Czy pewność wykrycia kaczki się zmieniła? Czy pojawiły się nowe wykrycia? \linia{9.2}
+
+\subsubsection{Krok 4: obiekt-zagadka (4 min)}\label{krok-4-obiekt-zagadka-4-min}
+
+Prowadzący daje zespołowi przedmiot. Ustawcie go przed robotem i znajdźcie zapytanie, przy którym sieć wykrywa go z pewnością \textbf{powyżej 0,5}. Wygrywa zespół, który zrobi to najszybciej.
+
+Przedmiot: \linia{6.7} najlepsze zapytanie: \linia{6.7} pewność: \linia{2.5}
+
+\subsubsection{Krok 5: odległość, rozdzielczość, szybkość (4 min)}\label{krok-5-odlegux142oux15bux107-rozdzielczoux15bux107-szybkoux15bux107-4-min}
+
+Ustawiaj kaczkę w różnych odległościach. Dla każdej odległości uruchom komórkę, która sprawdza rozdzielczości 320 i 640.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2549}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3725}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3725}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Odległość {[}m{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pewność przy 320 px
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pewność przy 640 px
+\end{minipage} \\
+\midrule\noalign{}
+0,5 & & \\
+1,0 & & \\
+2,0 & & \\
+3,0 & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+Szybkość: 320 px: \linia{2.5} zdjęć/s, 640 px: \linia{2.5} zdjęć/s
+
+\subsubsection{Krok 6: decyzja zespołu (2 min)}\label{krok-6-decyzja-zespoux142u-2-min}
+
+Wybierzcie ustawienia do ćwiczenia 7, w którym robot ma sam znaleźć obiekt i do niego podjechać.
+
+\begin{itemize}
+\tightlist
+\item
+  Zapytanie: \linia{6.7} próg: \linia{2.5} rozdzielczość: \linia{2.5}
+\item
+  Uzasadnienie: \linia{14.0}
+\end{itemize}
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Dlaczego sieć z zamkniętą listą nie może wykryć kaczki, choć „widzi'' ją na zdjęciu?
+\item
+  Dlaczego zapytanie po polsku działa gorzej niż po angielsku? \emph{(Podpowiedź: na jakich opisach uczono sieć?)}
+\item
+  Robot ma szukać obiektu w całym pomieszczeniu. Co jest ważniejsze: duża rozdzielczość (widać daleko) czy szybkość? Czy da się połączyć jedno i drugie, np. szukać dokładnie, a podjeżdżać szybko?
+\item
+  Co jest gorsze dla robota szukającego obiektu: \textbf{fałszywe wykrycie} (pojedzie do czegoś innego) czy \textbf{przeoczenie}? Jak to wpływa na wybór progu?
+\end{enumerate}

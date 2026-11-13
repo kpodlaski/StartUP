@@ -1,0 +1,90 @@
+% Wygenerowano z ../00_wprowadzenie.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Jak pracujemy}\label{jak-pracujemy}
+
+Pracujecie w zespołach 2--3-osobowych. Każdy zespół ma \textbf{jednego Jetbota}, \textbf{stanowisko komputerowe} i \textbf{ten zeszyt ćwiczeń}. Wyniki wpisujecie bezpośrednio do tabel w instrukcjach. Przydadzą się w podsumowaniu.
+
+Podział pracy ustalacie sami. Pilnujcie tylko dwóch zasad:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{przy klawiaturze zmieniajcie się co ćwiczenie}, żeby każdy coś uruchomił i zmienił w notatniku,
+\item
+  \textbf{gdy robot jedzie, jedna osoba stoi przy torze} (w instrukcjach nazywamy ją \textbf{pilotem}). Ustawia robota na starcie, a w razie zagrożenia łapie go albo woła „STOP!''.
+\end{itemize}
+
+\subsection{Ćwiczenia}\label{ux107wiczenia}
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1053}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.5684}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2211}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1053}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Nr
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Ćwiczenie
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Notatnik
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czas
+\end{minipage} \\
+\midrule\noalign{}
+0 & Pierwsze kroki z notatnikiem i robotem & \texttt{00\_start.ipynb} & 5 min \\
+1 & LiDAR: jak robot mierzy odległość & \texttt{01\_lidar.ipynb} & 12 min \\
+2 & Kamera: jak zapisany jest obraz & \texttt{02\_kamera.ipynb} & 8 min \\
+3 & Odometria: dlaczego robot się gubi & \texttt{03\_odometria.ipynb} & 15 min \\
+4 & SLAM: budujemy mapę & \texttt{04\_slam.ipynb} & 40 min \\
+& \emph{przerwa} & & \\
+5 & Neuron: hamuj czy jedź? & \texttt{05\_perceptron.ipynb} & 10 min \\
+6 & Gotowa sieć neuronowa szuka obiektów: jak zapytać sieć & \texttt{06\_detektor.ipynb} & 20 min \\
+7 & Autonomiczna jazda na mapie i poszukiwanie kaczki & \texttt{07\_nawigacja.ipynb} & 35 min \\
+8 & Karta wyników zespołu & (papier) & 20 min \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\section{Ćwiczenie 0: pierwsze kroki (5 min)}\label{ux107wiczenie-0-pierwsze-kroki-5-min}
+
+\textbf{Cel:} nauczyć się uruchamiać komórki notatnika i sprawdzić, czy robot jest połączony.
+
+\subsection{Jak działa notatnik Jupyter}\label{jak-dziaux142a-notatnik-jupyter}
+
+\begin{itemize}
+\tightlist
+\item
+  Notatnik składa się z \textbf{komórek}. Komórki z tekstem to opis, a komórki z kodem to polecenia dla komputera.
+\item
+  Komórkę uruchamiasz, gdy klikniesz ją i naciśniesz \textbf{Shift + Enter} (albo przycisk ▶).
+\item
+  Gdy komórka pracuje, obok niej widać \texttt{{[}*{]}}. Po zakończeniu pojawia się numer, np. \texttt{{[}3{]}}.
+\item
+  Komórki uruchamiaj \textbf{po kolei, od góry}.
+\item
+  Wolno zmieniać tylko wartości w liniach oznaczonych \textbf{\texttt{\#\ ZMIEŃ\ TUTAJ}}. Resztę kodu można czytać, ale nie trzeba go rozumieć.
+\item
+  Gdy coś „zawiśnie'', wybierz z menu \emph{Kernel → Restart} i uruchom komórki od początku.
+\item
+  \textbf{Ostatnia komórka każdego notatnika to \texttt{koniec()}.} Uruchom ją, zanim otworzysz następny notatnik: zatrzymuje robota i odłącza notatnik. Robot działa dalej, a następny notatnik połączy się z nim w pierwszej komórce. Niczego nie trzeba restartować ani zamykać.
+\end{itemize}
+
+\subsection{Kroki}\label{kroki}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Otwórz \texttt{00\_start.ipynb}. Uruchom pierwszą komórkę (połączenie z robotem). Ma pojawić się komunikat \emph{„Połączono z robotem''}. \textbf{Sprawdź, czy numer w komunikacie, np. \texttt{{[}robot 3{]}}, zgadza się z naklejką na Waszym robocie.} Jeśli nie, zawołaj prowadzącego.
+\item
+  Uruchom komórkę \texttt{status()}. Przy napędzie, LiDAR-ze i kamerze powinien być znak \ding{51}.
+\item
+  W komórce z krótkim przejazdem zmień czas jazdy (\texttt{czas\ =\ 1.0\ \ \#\ ZMIEŃ\ TUTAJ}) na \texttt{2.0} i uruchom ją. \textbf{Pilot} trzyma rękę przy robocie.
+\item
+  Uruchom komórkę z \texttt{stop()}. Zapamiętaj ją, bo to \textbf{hamulec awaryjny}, który działa w każdym notatniku.
+\end{enumerate}
+
+\begin{quote}
+\textbf{Bezpieczeństwo.} Robot jest mały, ale potrafi spaść ze stołu albo wjechać pod nogi. Gdy robot jedzie, pilot jest zawsze przy torze. W razie problemu: komórka \texttt{stop()} albo podnieś robota.
+\end{quote}

@@ -1,0 +1,30 @@
+# Uruchamianie: ./docker/start.sh (Linux) albo docker\start.bat (Windows) — bez parametrów;
+# robota wybiera się w notatniku: wybierz_robota(N).
+#
+# Zwykła sieć Dockera (bez network_mode: host) — działa tak samo na Linuksie i na Docker Desktop (Windows).
+# ROS 1 potrzebuje połączeń w OBIE strony: notatnik łączy się z robotem (wychodzące, bez problemu),
+# a robot z notatnikiem (np. gdy notatnik publikuje /cmd_vel). Dlatego węzeł notatnika ma stałe porty
+# (konfiguracja.PORTY_ROS: każdy otwarty notatnik bierze wolną parę z 11411–11430), przekierowane niżej z hosta. Na Windowsie trzeba je otworzyć
+# w zaporze (README). Adres hosta, pod którym robot ma się łączyć (ROS_IP), notatnik ustala sam przez ssh.
+services:
+  warsztat:
+    build: .
+    image: warsztat-jetbot:noetic
+    # Start: kopiujemy klucze ssh z katalogu zamontowanego tylko do odczytu i ustawiamy uprawnienia 600
+    # (z Windowsa pliki przychodzą jako 0777, a ssh odrzuca tak „otwarty” klucz prywatny).
+    # Jupyter MUSI słuchać w kontenerze na 0.0.0.0 — inaczej przekierowany port 8888 nie ma się z czym połączyć.
+    # Na hoście port jest wystawiony tylko na 127.0.0.1 (sekcja ports).
+    command:
+      - bash
+      - -lc
+      - >-
+        mkdir -p ~/.ssh && cp ~/klucze_ssh/* ~/.ssh/ 2>/dev/null; chmod 700 ~/.ssh; chmod 600 ~/.ssh/* 2>/dev/null;
+        source /opt/ros/noetic/setup.bash &&
+        exec jupyter lab --config=/home/uczestnik/warsztat/docker/jupyter_server_config.py
+        --ip=0.0.0.0 --port=8888 --no-browser --ServerApp.token='' --ServerApp.password=''
+    ports:
+      - "127.0.0.1:8888:8888"     # JupyterLab — tylko z tego komputera
+      - "11411-11430:11411-11430" # ROS: porty węzłów notatników (robot → stacja), po 2 na notatnik
+    volumes:
+      - ../:/home/uczestnik/warsztat                          # instrukcje + notatniki (zmiany zostają na hoście)
+      - ${WARSZTAT_SSH:-./klucze_ssh}:/home/uczestnik/klucze_ssh:ro   # klucz ssh do Jetbotów (kopiowany przy starcie)

@@ -1,0 +1,194 @@
+% Wygenerowano z ../07_nawigacja.md skryptem _md_do_latex.py (można edytować ręcznie).
+\section{Ćwiczenie 7: autonomiczna jazda na mapie, czyli zadania na torze (35 min)}\label{ux107wiczenie-7-autonomiczna-jazda-na-mapie-czyli-zadania-na-torze-35-min}
+
+\textbf{Notatnik:} \texttt{07\_nawigacja.ipynb}
+
+\textbf{Potrzebne:} Wasza mapa \texttt{zespolN\_najlepsza} (albo mapa prowadzącego \texttt{tor\_prowadzacy}), punkty \textbf{S, A, B} oznaczone na Waszym torze (współrzędne na tablicy), karton jako „nowa przeszkoda'', obiekt do znalezienia (kaczka) ukryty przez prowadzącego
+
+\subsection{Cel}\label{cel}
+
+Uruchomić nawigację autonomiczną: robot sam ustala, gdzie jest na mapie, planuje trasę do celu, omija przeszkody, a na koniec sam odnajduje obiekt w pomieszczeniu i do niego podjeżdża.
+
+\subsection{Trochę teorii}\label{trochux119-teorii}
+
+Nawigacja składa się z trzech elementów:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Lokalizacja (AMCL)}: robot ustala, gdzie jest na \textbf{gotowej} mapie, porównując skan LiDAR-u z mapą. Używa wielu hipotez położenia, czyli \textbf{cząstek} (na podglądzie mapy to chmura niebieskich strzałek). Na początku cząstki są rozrzucone. Gdy robot jedzie, te, które nie pasują do skanu, znikają, a chmura się zawęża.
+\item
+  \textbf{Planer globalny}: wyznacza trasę od położenia robota do celu po mapie (zielona linia na podglądzie mapy).
+\item
+  \textbf{Planer lokalny}: prowadzi robota wzdłuż trasy i na bieżąco omija przeszkody, które widzi LiDAR, także te, których nie było na mapie.
+\end{enumerate}
+
+Współrzędne mapy: punkt \textbf{S} to (0, 0), oś \textbf{x} biegnie wzdłuż linii startowej, oś \textbf{y} w lewo. Jednostką są metry.
+
+\subsection{Kroki}\label{kroki}
+
+\subsubsection{Krok 1: start nawigacji i lokalizacja (7 min)}\label{krok-1-start-nawigacji-i-lokalizacja-7-min}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Uruchom \texttt{uruchom\_nawigacje("zespolN\_najlepsza")}. Start trwa do 1 minuty.
+\item
+  Postaw robota na punkcie \textbf{S} i uruchom \texttt{ustaw\_pozycje\_startowa(0,\ 0,\ 0)}.
+\item
+  Uruchom \texttt{panel\_sterowania(podglad=True)} i obejrzyj na mapie chmurę cząstek. Przejedź kawałek, obracając się powoli. Co się dzieje z chmurą?
+\item
+  Uruchom \texttt{gdzie\_jestem()}. Jaka jest niepewność położenia przed jazdą i po niej?
+\end{enumerate}
+
+Niepewność przed jazdą: \linia{2.5} cm, po jeździe: \linia{2.5} cm
+
+\subsubsection{Zadanie A: dojazd do celu (7 min)}\label{zadanie-a-dojazd-do-celu-7-min}
+
+Ustaw w komórce współrzędne punktu \textbf{A} (z tablicy) i uruchom \texttt{jedz\_do(x,\ y)}. Gdy robot stanie, zmierzcie miarką odległość środka robota od punktu A. Powtórz dla punktu \textbf{B}.
+
+\subsubsection{Zadanie B: nowa przeszkoda (7 min)}\label{zadanie-b-nowa-przeszkoda-7-min}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Postaw karton na trasie z A do B, w miejscu, gdzie na mapie jest pusto.
+\item
+  Wyślij robota do celu i obserwuj na podglądzie mapy (pojawia się pod komórką \texttt{jedz\_do}), jak planer zmienia trasę.
+\item
+  Zmień parametry komórką \texttt{ustaw\_parametry\_nawigacji(...)} i powtórz:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{odleglosc\_bezpieczenstwa}: 0,10 m, potem 0,35 m. Jak blisko przeszkód jedzie robot? Czy zmieści się w wąskim przejeździe?
+  \item
+    \texttt{maks\_predkosc}: 0,10 m/s, potem 0,25 m/s.
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Zadanie C: znajdź kaczkę (12 min)}\label{zadanie-c-znajdux17a-kaczkux119-12-min}
+
+Prowadzący ukrywa kaczkę gdzieś na torze. Robot ma ją \textbf{sam} znaleźć i do niej podjechać.
+
+Kaczka jest niższa niż wiązka LiDAR-u, więc LiDAR jej nie widzi, a nawigacja nie traktuje jej jak przeszkody. Robot szuka jej \textbf{kamerą i siecią z ćwiczenia 6}: obraca się, robi zdjęcia i sprawdza, czy sieć coś wykrywa. Gdy znajdzie kaczkę, podjeżdża: ustawia się tak, żeby kaczka była na środku obrazu, jedzie kawałek i powtarza. Zatrzymuje się, gdy kaczka jest już nisko w obrazie, czyli blisko robota.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{C1: rozglądanie się (3 min).} Ustaw kaczkę ok. 1 m od robota, z boku albo z tyłu. Ustaw zapytanie i próg z ćwiczenia 6, a potem uruchom \texttt{rozejrzyj\_sie()}. Po ilu obrotach robot ją znalazł? Sprawdź też inny \texttt{krok} obrotu (np. 45° zamiast 30°).
+\item
+  \textbf{C2: dojazd (3 min).} Uruchom \texttt{podjedz\_do\_obiektu()}. Zmierz miarką, jak daleko od kaczki robot się zatrzymał. Zmień \texttt{dol\_stop}, żeby zatrzymał się ok. 15--20 cm przed kaczką.
+\item
+  \textbf{C3: poszukiwania (6 min).} Kaczka jest ukryta na torze. Na swojej mapie wybierzcie \textbf{punkty obserwacyjne}, z których robot się rozejrzy, i ustalcie ich kolejność. Uruchom \texttt{szukaj\_obiektu(punkty)}. Robot rozejrzy się na miejscu, a potem będzie jeździł po punktach, aż znajdzie kaczkę i do niej podjedzie. Komórka wypisze dziennik z czasem.
+\end{enumerate}
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0840}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1597}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1345}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1681}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2521}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2017}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Próba
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Punkty obserwacyjne
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+krok {[}°{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czas znalezienia {[}s{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czas do zatrzymania przy kaczce {[}s{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Odległość od kaczki {[}cm{]}
+\end{minipage} \\
+\midrule\noalign{}
+1 & & & & & \\
+2 & & & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+Wygrywa zespół, którego robot najszybciej dojedzie do kaczki.
+
+\subsubsection{Dziennik prób}\label{dziennik-pruxf3b}
+
+Pracujcie w cyklu \textbf{test → analiza → korekta parametrów → kolejny test}.
+
+\par\noindent\begin{minipage}{\linewidth}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0917}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0917}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1743}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1468}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1468}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2018}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1468}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Próba
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Zadanie
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Zmienione parametry
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Dotarł? (T/N)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Czas {[}s{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Odległość od celu {[}cm{]}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Co się stało?
+\end{minipage} \\
+\midrule\noalign{}
+1 & A & domyślne & & & & \\
+2 & & & & & & \\
+3 & & & & & & \\
+4 & & & & & & \\
+5 & & & & & & \\
+6 & & & & & & \\
+\bottomrule\noalign{}
+\end{tabular}
+\end{minipage}\par\medskip
+
+\subsection{Pytania do przemyślenia}\label{pytania-do-przemyux15blenia}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Czym różni się \textbf{lokalizacja} (AMCL) od \textbf{budowy mapy} (SLAM)? Dlaczego w tym ćwiczeniu nie uruchamialiśmy SLAM?
+\item
+  Co się stanie, gdy podasz robotowi \textbf{błędną} pozycję startową (np. 1 m obok)? Sprawdźcie, jeśli starczy czasu.
+\item
+  Dlaczego robot podjeżdża do kaczki „skokami'' (jedzie, staje, patrzy)? Wymieńcie wszystkie źródła opóźnienia (kamera → Wi-Fi → sieć neuronowa → decyzja → silniki).
+\item
+  Jak wybraliście punkty obserwacyjne? Co by się stało, gdyby kaczka stała za pudłem?
+\item
+  Kto odpowiada za to, gdy autonomiczny pojazd popełni błąd: programista, producent czujnika, właściciel czy ktoś inny?
+\end{enumerate}
+
+\begin{quote}
+\textbf{Jeśli coś nie działa.}
+
+\begin{itemize}
+\tightlist
+\item
+  „PRZERWANO, nie da się dojechać'': cel leży w przeszkodzie albo zbyt blisko ściany. Zmniejsz \texttt{odleglosc\_bezpieczenstwa} albo wybierz inny punkt.
+\item
+  Robot kręci się w miejscu: lokalizacja się zgubiła. Ustaw ponownie pozycję startową.
+\item
+  Robot „nie widzi'' kaczki, choć stoi ona przed nim: obniż próg, zmień zapytanie albo ustaw rozdzielczość 640.
+\item
+  Robot jedzie do czegoś innego: podnieś próg albo zmień zapytanie na dokładniejsze.
+\item
+  Awaryjnie: \texttt{zatrzymaj\_wszystko()}.
+\end{itemize}
+\end{quote}
