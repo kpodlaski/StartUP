@@ -2,6 +2,15 @@
 
 Moduł 180 min (2 × 90). Plan i efekty uczenia się opisuje `../Opis_modulu_propozycja.md`.
 
+## Autorzy i projekt
+
+Autorzy: dr Krzysztof Podlaski, dr hab. Witold Kozłowski (Wydział Fizyki i Informatyki Stosowanej, Uniwersytet Łódzki).
+
+Materiały przygotowano w ramach projektu „Zawodowy StartUp – liderzy jutra” (nr FELD.08.08-IZ.00-0002/26),
+współfinansowanego z EFS+ w ramach programu Fundusze Europejskie dla Łódzkiego 2021–2027.
+
+Materiały przygotowano z wykorzystaniem narzędzia AI (Claude, Anthropic); treść opracowana i zweryfikowana przez autorów.
+
 ## Zawartość
 
 ```

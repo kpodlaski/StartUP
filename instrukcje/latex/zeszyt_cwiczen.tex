@@ -25,7 +25,7 @@
 \fi
 \usepackage[polish]{babel}
 \usepackage[a4paper,margin=2cm,top=2.3cm,bottom=2.5cm]{geometry}
-\usepackage{xcolor,tikz,longtable,booktabs,array,calc,enumitem,pifont,amssymb}
+\usepackage{graphicx,xcolor,tikz,longtable,booktabs,array,calc,enumitem,pifont,amssymb}
 \usepackage[most]{tcolorbox}
 \usepackage[hidelinks]{hyperref}
 \usepackage{scrlayer-scrpage}
@@ -43,8 +43,12 @@
 \pagestyle{scrheadings}
 \clearpairofpagestyles
 \ihead{Autonomiczne pojazdy sterowane AI — zeszyt ćwiczeń}
-\ohead{\pagemark}
-\ifoot{Zespół nr \rule{1.5cm}{0.4pt}}
+% stopka: informacja o projekcie i finansowaniu (jak w prezentacji), numer strony po prawej
+\cfoot{\scriptsize\renewcommand{\arraystretch}{1}\begin{tabular}[b]{@{}c@{}}   % zwykły odstęp (globalnie 1.75 dla tabel)
+  Projekt „Zawodowy StartUp – liderzy jutra” • nr FELD.08.08-IZ.00-0002/26\\
+  Współfinansowany z EFS+ w ramach programu Fundusze Europejskie dla Łódzkiego 2021–2027
+\end{tabular}}
+\ofoot{\pagemark}
 \RedeclareSectionCommand[beforeskip=0pt,afterskip=0.8\baselineskip]{section}
 
 % ---------- elementy używane przez treść z pandoca ----------
@@ -76,11 +80,9 @@
 {\sffamily\large
 \renewcommand{\arraystretch}{2.2}
 \begin{tabular}{@{}ll@{}}
-Zespół nr & \rule{2cm}{0.4pt}\\
 Skład zespołu & \rule{9cm}{0.4pt}\\
               & \rule{9cm}{0.4pt}\\
 Robot (Jetbot) nr & \rule{2cm}{0.4pt}\\
-Tor & \rule{2cm}{0.4pt}\\
 \end{tabular}}
 
 \vfill
@@ -90,6 +92,14 @@ Tor & \rule{2cm}{0.4pt}\\
 od razu do tabel, bo przydadzą się w podsumowaniu (ćwiczenie 8). Zmieniajcie tylko linie oznaczone
 \texttt{\# ZMIEŃ TUTAJ}. Gdy robot jedzie, pilot jest zawsze przy torze. Hamulec: komórka \texttt{stop()}.
 \end{tcolorbox}}
+
+% logotypy: projekt, jednostka (WFiS UŁ), finansowanie (pasek FE/RP/UE/województwo)
+\vspace{6mm}
+\noindent\includegraphics[height=1.1cm]{obrazy/projekt_logo.jpg}\hfill
+% PNG WFiS ma przezroczysty margines (pole ochronne) — przycinamy go przy wstawianiu, plik zostaje bez zmian.
+% trim = lewo dół prawo góra w px (PNG bez DPI → 1 px = 1 bp); obraz 1755×585, znak w (150,149)–(1607,438)
+\includegraphics[height=1.1cm,trim=150 147 148 149,clip]{obrazy/logo_wfis_ul_h_pl_rgb.png}\hfill
+\includegraphics[height=1.1cm]{obrazy/projekt_numerki.jpg}
 \end{titlepage}
 
 \tableofcontents
@@ -104,5 +114,12 @@ od razu do tabel, bo przydadzą się w podsumowaniu (ćwiczenie 8). Zmieniajcie 
 \clearpage\input{cw06}
 \clearpage\input{cw07}
 \clearpage\input{cw08}
+
+% informacja o użyciu AI — na dole ostatniej strony, w stylu stopki
+\par\vfill
+\begin{center}\sffamily\scriptsize\color{gray}
+  Materiały przygotowane z wykorzystaniem narzędzia AI (Claude, Anthropic);
+  treść opracowana i zweryfikowana przez autorów.
+\end{center}
 
 \end{document}

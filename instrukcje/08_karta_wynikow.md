@@ -1,6 +1,6 @@
 # Ćwiczenie 8: karta wyników zespołu (20 min, prezentacja ok. 2 min na zespół)
 
-**Zespół nr:** ____  **Skład:** ____________________________________________
+**Skład zespołu:** ____________________________________________
 
 ## 1. Czujniki
 - Największy błąd LiDAR-u, który zmierzyliśmy: ______ cm, przy ______________________
