@@ -70,6 +70,23 @@ Kontener jest ten sam co na Linuksie. Raz na każdej stacji (z uprawnieniami adm
    Jeśli przy pierwszym starcie Windows zapyta o dostęp dla Dockera, zezwolić także dla sieci publicznych.
 4. Start: dwuklik `docker\start.bat` (uruchamia kontener i otwiera http://127.0.0.1:8888).
 
+## Przygotowanie stacji przed warsztatem: `init_stacji`
+
+Jeden dwuklik na każdej stacji: `init_stacji.bat` (Windows) albo `./init_stacji.sh` (Linux). Skrypt:
+
+1. **pobiera materiały**: za pierwszym razem `git clone` do `%USERPROFILE%\warsztat_jetbot` (Linux: `~/warsztat_jetbot`),
+   na kolejnych warsztatach aktualizuje katalog do wersji z repozytorium. Zmiany uczniów z poprzednich zajęć
+   (notatniki, własne pliki) odkłada do `git stash`, więc nie giną (`git stash list`, `git stash show -p`).
+   Zostają pliki lokalne stacji z `.gitignore`: wybór robota (`notatniki/.wybrany_robot`) i klucze ssh;
+2. **buduje obraz Dockera** tylko wtedy, gdy go nie ma albo gdy zmienił się katalog `docker/`
+   (obraz wczytany przez `docker load` nie jest budowany ponownie);
+3. **uruchamia kontener** (stary zastępuje, także ten uruchomiony z innej kopii materiałów, np. z pendrive'a)
+   i otwiera http://127.0.0.1:8888.
+
+Nie wymaga gita na stacji: jeśli go nie ma, używa obrazu `alpine/git` przez Dockera. Bez internetu pomija aktualizację
+i uruchamia wersję już pobraną. Adres repozytorium (`REPO_URL`), gałąź i katalog są na początku pliku.
+Skrypt można trzymać poza repozytorium (pulpit, pendrive); zapory nie ustawia (punkt 3 wyżej, raz na stację).
+
 Szybki test łączności w notatniku: `wybierz_robota(N)`, `uruchom_robota()`, `status()` (odbiór), potem krótki `jedz()` (robot → stacja, czyli zapora).
 
 ## Tryb demonstracyjny (bez robota)
