@@ -6,7 +6,8 @@ docker/klucze_ssh/*
 # Wybór robota na danej stacji (jetbot_warsztat.wybierz_robota) — lokalny dla stacji
 notatniki/.wybrany_robot
 
-# --- Część PRYWATNA: osobne repozytorium zagnieżdżone w tym katalogu (scenariusz, prezentacja, narzędzia prowadzącego) ---
+# Dawne miejsce prywatnych materiałów prowadzącego (od 2026-11-13 w ../warsztat_prowadzacy/, repo prywatne).
+# Ignorowane na wszelki wypadek, żeby stara kopia nie trafiła do repo publicznego.
 prowadzacy/
 
 # Pliki tymczasowe Pythona i Jupytera

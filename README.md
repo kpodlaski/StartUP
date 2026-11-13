@@ -34,18 +34,11 @@ warsztat/
 │   ├── jetbot_warsztat.py     funkcje PL (LiDAR, kamera, ruch, SLAM, nawigacja, szukanie obiektu) + tryb demo
 │   ├── detektor.py            YOLOv8n (COCO) i YOLOE (otwarty słownik, zapytania słowne) — na CPU
 │   └── perceptron.py          ćw. 5, działa bez robota
-├── prowadzacy/            ← DLA PROWADZĄCYCH
-│   ├── scenariusz/            scenariusz_prowadzacego.tex → .pdf (harmonogram minuta po minucie, przygotowanie,
-│   │                          odpowiedzi do pytań, plany awaryjne); budowa: ./zbuduj.sh (pdflatex, xelatex lub tectonic)
-│   ├── prezentacja/           prezentacja.tex → .pdf (Beamer 16:9): mini-wykłady przed każdym ćwiczeniem + slajdy „Ćwiczenie N”;
-│   │                          budowa: ./zbuduj.sh; obrazy/ z _przygotuj_obrazy.py (zdjęcia z Jetbota i wyniki detekcji)
-│   ├── podglad_kamery.ipynb   podgląd na żywo z kamery robota + zapis zdjęć testowych (PNG + zdjecia.csv)
-│   ├── podglad_kamery.py      kod podglądu; źródła: ROS / CSI (GStreamer na Jetbocie) / USB / demo; Python ≥3.6
-│   ├── _zbuduj_podglad.py     generator notatnika
-│   └── test_detektora.py      test gotowych detektorów na zdjęciach (CSV + obrazy z ramkami)
 └── docker/                ← środowisko stacji: Dockerfile, docker-compose.yml, start.sh (bez parametrów),
                                jupyter_server_config.py (uczniowie widzą w Jupyterze tylko notatniki; pliki .py ukryte)
 ```
+
+Materiały prowadzącego (scenariusz, prezentacja, szablon kątomierza i linijki, podgląd kamery, test detektora) są w osobnym, **prywatnym** repozytorium; lokalnie w katalogu `../warsztat_prowadzacy/` obok tego repo.
 
 Notatniki mają tę samą numerację kroków co instrukcje. Uczestnicy zmieniają tylko linie `# ZMIEŃ TUTAJ`.
 
@@ -117,9 +110,9 @@ Wszystkie miejsca są oznaczone w `konfiguracja.py` komentarzem `SPRAWDZIĆ`:
 5. Stacje: zbudować obraz `docker compose -f docker/docker-compose.yml build` (**z internetem, przed zajęciami**; wagi YOLO trafiają do obrazu), sprawdzić, czy `ultralytics==8.4.211` instaluje się na Pythonie 3.8, czy podgląd mapy odświeża się w trakcie `jedz_do()` (widżet aktualizowany z wątku), tematy `TEMAT_PLAN`/`TEMAT_CZASTKI` i ramka `RAMKA_ROBOTA` w `konfiguracja.py`, szybkość detekcji na procesorze stacji (`detektor.test_szybkosci`), logowanie ssh na roboty (`ROBOT_HASLO`), czy robot dociera do portów 11411–11430 stacji (zapora), synchronizacja czasu robot↔stacja (chrony) jest zalecana, ale nie krytyczna: notatnik wysyła wiadomości ze znacznikiem czasu 0 („najnowsze dane”).
 6. Wi-Fi: przepustowość dla 3–5 strumieni kamery jednocześnie (ćw. 6–7).
 
-## Przygotowanie sali (skrót; pełna wersja w `prowadzacy/scenariusz/scenariusz_prowadzacego.pdf`)
+## Przygotowanie sali (skrót; pełna wersja w `../warsztat_prowadzacy/scenariusz/scenariusz_prowadzacego.pdf`)
 
 - **Przed zajęciami** uruchomić roboty (`uruchom_robota()`, ok. 1 min na robota), żeby nie tracić czasu na zajęciach.
 - Tory z przeszkodami (zalecany jeden tor na dwa zespoły, które jeżdżą na zmianę). Na każdym torze punkt **S** (taśma, krzyżyk + linia kierunku), czyli początek układu współrzędnych map zespołów z tego toru, oraz punkty **A, B** z wypisanymi na tablicy współrzędnymi względem S. Przeszkody wyższe od płaszczyzny LiDAR-u.
 - Gotowa mapa `tor_prowadzacy` na każdym robocie (plan awaryjny dla ćw. 7).
-- Materiały do ćw. 1: miarka, karton, biała kartka, czarna matowa tkanina, plexi, lusterko, puszka, kątomierz i linijka. Do ćw. 3: taśma malarska, kątomierz i linijka (zwykłe szkolne wystarczą; do wydruku: `prowadzacy/szablon/szablon_katomierz_linijka.pdf`, A4, skala 100%). Do ćw. 6–7: czerwona gumowa kaczka (po jednej na zespół + jedna do ukrycia), „obiekty-zagadki” do zapytań słownych (różne przedmioty, po jednym na zespół; warto je wcześniej sprawdzić notatnikiem `prowadzacy/podglad_kamery.ipynb` i `test_detektora.py`), krzesło, plecak, pudełka.
+- Materiały do ćw. 1: miarka, karton, biała kartka, czarna matowa tkanina, plexi, lusterko, puszka, kątomierz i linijka. Do ćw. 3: taśma malarska, kątomierz i linijka (zwykłe szkolne wystarczą; do wydruku: `../warsztat_prowadzacy/szablon/szablon_katomierz_linijka.pdf`, A4, skala 100%). Do ćw. 6–7: czerwona gumowa kaczka (po jednej na zespół + jedna do ukrycia), „obiekty-zagadki” do zapytań słownych (różne przedmioty, po jednym na zespół; warto je wcześniej sprawdzić notatnikiem `../warsztat_prowadzacy/podglad_kamery.ipynb` i skryptem `test_detektora.py`), krzesło, plecak, pudełka.
