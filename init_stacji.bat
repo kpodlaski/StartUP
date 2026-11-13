@@ -19,7 +19,7 @@ rem  dlatego najpierw kopiuje sie do %TEMP% i dziala z kopii (aktualizacja moze 
 rem ===========================================================================================
 
 rem ---- USTAWIENIA ---------------------------------------------------------------------------
-set "REPO_URL=https://github.com/KONTO/NAZWA-REPO.git"
+set "REPO_URL=https://github.com/kpodlaski/StartUP.git"
 set "GALAZ=main"
 set "KATALOG=%USERPROFILE%\warsztat_jetbot"
 set "OBRAZ=warsztat-jetbot:noetic"

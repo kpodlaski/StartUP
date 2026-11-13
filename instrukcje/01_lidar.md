@@ -1,7 +1,7 @@
 # Ćwiczenie 1: LiDAR, czyli jak robot mierzy odległość (12 min)
 
 **Notatnik:** `01_lidar.ipynb`
-**Potrzebne:** miarka, karton (ok. 30 × 30 cm), zestaw materiałów: biała kartka, czarna matowa tkanina, szyba lub plexi, lusterko, metalowa puszka, szablon kątów (0°, 30°, 60°)
+**Potrzebne:** miarka, karton (ok. 30 × 30 cm), zestaw materiałów: biała kartka, czarna matowa tkanina, szyba lub plexi, lusterko, metalowa puszka, kątomierz i linijka (do ustawiania kątów)
 
 ## Cel
 
@@ -46,7 +46,7 @@ Na kartonie ustawionym w odległości **0,60 m** umieszczaj kolejno różne mate
 | metalowa puszka | | | |
 
 ### Krok 4: przeszkoda pod kątem (2 min)
-Karton w odległości **0,60 m**, obracany względem robota (użyj szablonu kątów).
+Karton w odległości **0,60 m**, obracany względem robota. Kąt ustawcie kątomierzem: linijkę przyłóżcie do przedniej ściany kartonu, kątomierz do linijki (0° = karton ustawiony prostopadle do robota).
 
 | Kąt ustawienia kartonu | Średnia z LiDAR-u [m] | Pomiary nieudane (z 10) |
 |---|---|---|

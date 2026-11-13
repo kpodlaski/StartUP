@@ -1,7 +1,7 @@
 # Ćwiczenie 3: odometria, czyli dlaczego robot się gubi (15 min)
 
 **Notatnik:** `03_odometria.ipynb`
-**Potrzebne:** taśma malarska, miarka, kawałek wolnej podłogi ok. 1,5 × 1,5 m
+**Potrzebne:** taśma malarska, miarka, kątomierz, linijka, kawałek wolnej podłogi ok. 1,5 × 1,5 m
 
 ## Cel
 
@@ -19,7 +19,7 @@ Przyklej na podłodze taśmą **krzyżyk** (punkt startu) i **linię kierunku**.
 ### Krok 2: przejazd po kwadracie (4 min)
 Uruchom `przejazd_po_kwadracie(bok=1.0)`. Robot przejedzie kwadrat 1 × 1 m, skręcając w lewo, i zatrzyma się tam, gdzie **według odometrii** jest start.
 
-Gdy robot stanie, zmierzcie miarką, jak daleko środek robota jest od krzyżyka (w cm). Pomiar obrotu robota względem linii kierunku jest szacunkowy.
+Gdy robot stanie, zmierzcie miarką, jak daleko środek robota jest od krzyżyka (w cm). Obrót robota zmierzcie kątomierzem: przyłóżcie linijkę do boku robota (wzdłuż kierunku jazdy) i odczytajcie kąt między linijką a linią kierunku na podłodze. Wystarczy dokładność kilku stopni.
 
 ### Krok 3: kolejne przejazdy (6 min)
 Za każdym razem ustaw robota dokładnie na krzyżyku. W komórkach zmieniasz parametry oznaczone `# ZMIEŃ TUTAJ`.

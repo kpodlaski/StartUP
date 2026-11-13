@@ -14,7 +14,7 @@
 # =============================================================================================
 
 # ---- USTAWIENIA ------------------------------------------------------------------------------
-REPO_URL="https://github.com/KONTO/NAZWA-REPO.git"
+REPO_URL="https://github.com/kpodlaski/StartUP.git"
 GALAZ="main"
 KATALOG="${WARSZTAT_KATALOG:-$HOME/warsztat_jetbot}"
 OBRAZ="warsztat-jetbot:noetic"
